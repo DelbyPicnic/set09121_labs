@@ -28,3 +28,8 @@ add_executable(PONG ${SOURCES})
 target_include_directories(PONG PRIVATE ${SFML_INCS})
 target_link_libraries(PONG sfml-graphics)
 
+### SPACE INVADERS ###
+file(GLOB_RECURSE SOURCES space_invaders/*.cpp space_invaders/*.h)
+add_executable(SPACE_INVADERS ${SOURCES})
+target_include_directories(SPACE_INVADERS PRIVATE ${SFML_INCS})
+target_link_libraries(SPACE_INVADERS sfml-graphics)

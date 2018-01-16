@@ -112,7 +112,7 @@ void Update(RenderWindow &window){
         by < paddles[0].getPosition().y + (paddleSize.y * 0.5)
     ){
         // Bounce off left paddle
-        ballVelocity.x *= -1.1f;
+        ballVelocity.x *= -1.0f;
         ball.move(11,0);
         
     }else if(
@@ -121,7 +121,7 @@ void Update(RenderWindow &window){
         by < paddles[1].getPosition().y + (paddleSize.y * 0.5)
     ){
         // Bounce off right paddle
-        ballVelocity.x *= -1.1f;
+        ballVelocity.x *= -1.0f;
         ball.move(-11,0);
     }
 }
