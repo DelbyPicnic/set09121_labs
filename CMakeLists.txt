@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 # Require modern C++
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 
 project(Games_Engineering)
 
@@ -36,3 +37,9 @@ target_link_libraries(SPACE_INVADERS sfml-graphics)
 set_target_properties(SPACE_INVADERS PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration))
 add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/res" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/res)
 add_dependencies(SPACE_INVADERS copy_resources)
+
+### TILE ENGINE ###
+file(GLOB_RECURSE SOURCES tile_engine/*.cpp tile_engine/*.h)
+add_executable(TILES ${SOURCES})
+target_include_directories(TILES PRIVATE ${SFML_INCS})
+target_link_libraries(TILES sfml-graphics)
