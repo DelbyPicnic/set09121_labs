@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "entity.h"
 #include "player.h"
-#include "levelsystem.h"
+#include "enemy.h"
 #include <iostream>
 
 
@@ -15,10 +15,11 @@ const Keyboard::Key controls[4] = {
     Keyboard::D  // Player Right
 };
 
-vector<Entity *> entities;
+EntityManager* em = new EntityManager();
 
 void Load()
 {
+    /*
     ls::loadLevelFile("res/maze_2.txt");
 
     // Print the level to the console
@@ -28,9 +29,13 @@ void Load()
         }
         cout << endl;
     }
+    */
 
     Player* pl = new Player();
-    entities.push_back(pl);
+    Enemy* enm = new Enemy();
+
+    em.list.push_back(pl);
+    em.list.push_back(enm);
 }
 
 void Update(RenderWindow &window)
@@ -62,7 +67,6 @@ void Update(RenderWindow &window)
     if (Keyboard::isKeyPressed(controls[3])){
         entities[0]->move(Vector2f(1.0f, 0.0f));
     }
-    
 
     for(auto &ent : entities){
         ent->update(dt);
@@ -71,7 +75,6 @@ void Update(RenderWindow &window)
 
 void Render(RenderWindow &window)
 {
-    ls::render(window);
     for(const auto &ent : entities){
         ent->render(window);
     }
@@ -80,8 +83,8 @@ void Render(RenderWindow &window)
 int main()
 {
     Load();
-    int screenWidth = static_cast<int>(ls::getWidth()) * 100;
-    int screenHeight = static_cast<int>(ls::getHeight()) * 100;
+    int screenWidth = 8 * 100;
+    int screenHeight = 8 * 100;
     RenderWindow window(VideoMode(screenWidth, screenHeight ), "Tiles");
 
 

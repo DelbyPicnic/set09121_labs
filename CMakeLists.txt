@@ -38,8 +38,29 @@ set_target_properties(SPACE_INVADERS PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${
 add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/res" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/res)
 add_dependencies(SPACE_INVADERS copy_resources)
 
+### TILE-BASED GAME ENGINE ###
+
+### MATHS LIBRARY ###
+add_library(maths_lib INTERFACE)
+target_sources(maths_lib INTERFACE "${CMAKE_SOURCE_DIR}/engine/maths_lib/maths.h")
+target_include_directories(maths_lib INTERFACE "${CMAKE_SOURCE_DIR}/engine/maths_lib" SYSTEM INTERFACE ${SFML_INCS})
+
+### TILE ENGINE LIBRARY ###
+file(GLOB_RECURSE SOURCE_FILES engine/tile_engine_lib/*.cpp engine/tile_engine_lib/*.h)
+add_library(tile_engine_lib STATIC ${SOURCE_FILES})
+target_include_directories(tile_engine_lib PRIVATE ${SFML_INCS} INTERFACE "${CMAKE_SOURCE_DIR}/engine/tile_engine_lib/")
+target_link_libraries(tile_engine_lib maths_lib sfml-graphics)
+
 ### TILE ENGINE ###
 file(GLOB_RECURSE SOURCES tile_engine/*.cpp tile_engine/*.h)
 add_executable(TILES ${SOURCES})
 target_include_directories(TILES PRIVATE ${SFML_INCS})
-target_link_libraries(TILES sfml-graphics)
+target_link_libraries(TILES tile_engine_lib maths_lib sfml-graphics)
+
+### PACMAN ###
+file(GLOB_RECURSE SOURCES pacman/*.cpp pacman/*.h)
+add_executable(PACMAN ${SOURCES})
+target_include_directories(PACMAN PRIVATE ${SFML_INCS})
+target_link_libraries(PACMAN sfml-graphics)
+
+
